@@ -143,7 +143,7 @@ module OmniAuth
       <!DOCTYPE html>
       <html>
       <head>
-        <title>#{title}</title>
+        <title>#{title}!!!</title>
         #{css}
       </head>
       <body>
