@@ -248,10 +248,18 @@ module OmniAuth
       end
       
 	    def simple_bind(bind_dn, options={})
+	      
+	      pw = (options[:password]||@password).to_s
+	      if pw == ""
+	        pw = "asdlkjhmowe9239;oij;slkdsd;foi29u32o9uohj;ildjfsd"
+	        p "---------------- inserting password"
+        end
+	      
+	      
 	      args = {
                   :method => :simple,
                   :username => bind_dn,
-                  :password => (options[:password]||@password).to_s,
+                  :password => pw,
                  }
         begin
           execute(:bind, args)
