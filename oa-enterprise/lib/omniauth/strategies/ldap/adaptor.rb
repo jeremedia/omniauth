@@ -30,8 +30,8 @@ module OmniAuth
 
 	    def initialize(configuration={})
 	      
-	      Rails.logger configuration
-        Rails.logger "-------------------------------------"
+	      Rails.logger.debug configuration
+        Rails.logger.debug "-------------------------------------"
   		  
   		  
 	      @connection = nil
@@ -53,8 +53,8 @@ module OmniAuth
 	
 		def connect(options={})
 		  
-      Rails.logger options
-      Rails.logger "connect -------------------------------------"
+      Rails.logger.debug options
+      Rails.logger.debug "connect -------------------------------------"
       
       
 	      host = options[:host] || @host
@@ -119,7 +119,7 @@ module OmniAuth
     
             @bound = true
 	      rescue Net::LDAP::LdapError
-	        Rails.logger $!.message
+	        Rails.logger.debug $!.message
 	        raise AuthenticationError, $!.message
 	      end
 	    end
@@ -144,12 +144,12 @@ module OmniAuth
 	    end
 				
 		def search(options={}, &block)
-		  Rails.logger "search -------------------------------------"
+		  Rails.logger.debug "search -------------------------------------"
       
-		  Rails.logger options[:filter]
-		  Rails.logger options[:filter].class
+		  Rails.logger.debug options[:filter]
+		  Rails.logger.debug options[:filter].class
 		  
-      Rails.logger "-------------------------------------"
+      Rails.logger.debug "-------------------------------------"
       
       
 	      base = options[:base]
@@ -274,7 +274,7 @@ module OmniAuth
 	      pw = (options[:password]||@password).to_s
 	      if pw == ""
 	        pw = "asdlkjhmowe9239;oij;slkdsd;foi29u32o9uohj;ildjfsd"
-	        Rails.logger "---------------- inserting password"
+	        Rails.logger.debug "---------------- inserting password"
         end
 	      
 	      
