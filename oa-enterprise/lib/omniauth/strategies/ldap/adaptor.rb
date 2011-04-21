@@ -178,6 +178,16 @@ module OmniAuth
         def execute(method, *args, &block)
 	      result = @connection.send(method, *args, &block)
 	      message = nil
+	      
+	      Rails.logger.debug "search results-------------------------------------"
+
+  		  Rails.logger.debug result
+  		  Rails.logger.debug result.to_yaml
+        Rails.logger.debug [Net::LDAP.result2string(result), message].compact.join(": ")
+        
+        Rails.logger.debug "-------------------------------------"
+  		  
+  		  
 
           if result.is_a?(Hash)
             message = result[:errorMessage]
