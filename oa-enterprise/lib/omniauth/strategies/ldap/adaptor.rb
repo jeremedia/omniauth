@@ -29,6 +29,11 @@ module OmniAuth
 		attr_reader :connection, :uid, :base
 
 	    def initialize(configuration={})
+	      
+	      Rails.logger configuration
+        Rails.logger "-------------------------------------"
+  		  
+  		  
 	      @connection = nil
 	      @disconnected = false
 	      @bound = false
@@ -47,6 +52,11 @@ module OmniAuth
 	    end
 	
 		def connect(options={})
+		  
+      Rails.logger options
+      Rails.logger "connect -------------------------------------"
+      
+      
 	      host = options[:host] || @host
 	      method = ensure_method(options[:method] || @method || :plain)
 	      port = options[:port] || @port || ensure_port(method)
@@ -77,6 +87,8 @@ module OmniAuth
 	    end
 	
 	    def bind(options={})
+	      Rails.logger.debug options
+	      Rails.logger.debug "bind -------------------------------------"
 	      connect(options) unless connecting?
 	      begin
 		    @bind_tried = true
@@ -93,11 +105,12 @@ module OmniAuth
             # Attempt 2: SIMPLE with credentials if password block
         		# Attempt 3: SIMPLE ANONYMOUS if 1 and 2 fail and allow anonymous is set to true            
             if try_sasl and sasl_bind(bind_dn, options)
-                puts "bound with sasl"
+                Rails.logger.debug "bound with sasl"
             elsif simple_bind(bind_dn, options)
-                puts "bound with simple"
+                Rails.logger.debug bind_dn
+                Rails.logger.debug "bound with simple"
 						elsif allow_anonymous and bind_as_anonymous(options)
-							puts "bound as anonymous"
+							Rails.logger.debug "bound as anonymous"
             else
               message = yield if block_given?
               message ||= ('All authentication methods for %s exhausted.') % target
@@ -106,6 +119,7 @@ module OmniAuth
     
             @bound = true
 	      rescue Net::LDAP::LdapError
+	        Rails.logger $!.message
 	        raise AuthenticationError, $!.message
 	      end
 	    end
@@ -130,6 +144,14 @@ module OmniAuth
 	    end
 				
 		def search(options={}, &block)
+		  Rails.logger "search -------------------------------------"
+      
+		  Rails.logger options[:filter]
+		  Rails.logger options[:filter].class
+		  
+      Rails.logger "-------------------------------------"
+      
+      
 	      base = options[:base]
 	      filter = options[:filter]
 	      limit = options[:limit]
@@ -252,7 +274,7 @@ module OmniAuth
 	      pw = (options[:password]||@password).to_s
 	      if pw == ""
 	        pw = "asdlkjhmowe9239;oij;slkdsd;foi29u32o9uohj;ildjfsd"
-	        p "---------------- inserting password"
+	        Rails.logger "---------------- inserting password"
         end
 	      
 	      

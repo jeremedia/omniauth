@@ -5,7 +5,7 @@ module OmniAuth
     DEFAULT_CSS = <<-CSS
     body {
       background: #ccc;
-      font-family: "Lucida Grande", "Lucida Sans", Helvetica, Arial, sans-serif, cheese;
+      font-family: "Helvetica"
     }
     
     h1 {
